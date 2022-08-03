@@ -3,12 +3,12 @@
 {% block
 content %}
 <h2>Create a user</h2>
-<form method="POST" action="/submituser">
+<form method="POST" action="/users/new">
   <div>
-    <p>First Name:<input name="first-name" /></p>
+    <p>First Name:<input name="first-name" required/></p>
   </div>
   <div>
-    <p>Last Name:<input name="last-name" /></p>
+    <p>Last Name:<input name="last-name" required/></p>
   </div>
   <div>
     <p>Image URL:<input name="img-url" /></p>

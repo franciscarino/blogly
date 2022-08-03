@@ -1,20 +1,17 @@
-{% extends 'base.html' %}
-{% block title %}New User Form{% endblock %}
-{% block
+{% extends 'base.html' %} {% block title %}Edit User Form{% endblock %} {% block
 content %}
-<h2>Create a user</h2>
-TODO: add actions for buttons
-<form method="POST" action="/">
+<h2>Edit a user</h2>
+<form method="POST" action="/users/{{user.id}}/edit">
   <div>
-    <p>First Name:<input name="first-name" /></p>
+    <p>First Name:<input name="first-name" required /></p>
   </div>
   <div>
-    <p>Last Name:<input name="last-name" /></p>
+    <p>Last Name:<input name="last-name" required /></p>
   </div>
   <div>
     <p>Image URL:<input name="img-url" /></p>
   </div>
   <button>Save</button>
-  <a href="/"><button>Cancel</button></a>
 </form>
+<a href="/users/{{user.id}}"><button>Cancel</button></a>
 {% endblock %}
