@@ -3,7 +3,6 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-{% for user in users%}
 
 <h1>Users</h1>
 <ul>
@@ -11,7 +10,6 @@
   <li><a href="/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></li>
   {% endfor %}
 </ul>
-<button>Add user</button>
+<a href="/createuser"><button>Add user</button></a>
 
-{%endfor%}
 {% endblock %}
