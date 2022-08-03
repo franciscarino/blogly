@@ -3,13 +3,13 @@ content %}
 <h2>Edit a user</h2>
 <form method="POST" action="/users/{{user.id}}/edit">
   <div>
-    <p>First Name:<input name="first-name" required /></p>
+    <p>First Name:<input name="first-name" value="{{ user.first_name }}" /></p>
   </div>
   <div>
-    <p>Last Name:<input name="last-name" required /></p>
+    <p>Last Name:<input name="last-name" value="{{ user.last_name }}" /></p>
   </div>
   <div>
-    <p>Image URL:<input name="img-url" /></p>
+    <p>Image URL:<input name="img-url" value="{{ user.img_url }}"></p>
   </div>
   <button>Save</button>
 </form>

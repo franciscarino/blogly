@@ -1,9 +1,9 @@
 """Models for Blogly."""
 
-from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
+DEFAULT_IMAGE_URL = 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1144982182.jpg'
 
 def connect_db(app):
     """Connect to database."""
@@ -12,7 +12,7 @@ def connect_db(app):
 
 
 class User(db.Model):
-    """ Blogly User"""
+    """Blogly User table"""
 
     __tablename__ = "users"
 
@@ -22,4 +22,4 @@ class User(db.Model):
         db.String(50), nullable=False, unique=False)
     last_name = db.Column(
         db.String(50), nullable=False, unique=False)
-    img_url = db.Column(db.Text)
+    img_url = db.Column(db.Text, default=DEFAULT_IMAGE_URL)
