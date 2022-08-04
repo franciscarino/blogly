@@ -53,7 +53,8 @@ def show_user_details(user_id):
     """Shows user details"""
 
     user = User.query.get_or_404(user_id)
-    return render_template('detail.html', user=user)
+    posts = Post.query.filter_by(user_id=user_id)
+    return render_template('detail.html', user=user, posts=posts)
 
 
 @app.get('/users/<int:user_id>/edit')
@@ -96,7 +97,42 @@ def delete_user(user_id):
 
 
 @app.get('/users/<int:user_id>/posts/new')
-def handle_show_post_form(user_id):
+def show_post_form(user_id):
+    """Show new post form for user."""
 
     user = User.query.get_or_404(user_id)
     return render_template('new-post.html', user=user)
+
+
+@app.post('/users/<int:user_id>/posts/new')
+def handle_show_post_form(user_id):
+    """Submit new post and return to user detail page."""
+
+    title = request.form['title']
+    content = request.form['content']
+
+    new_post = Post(title=title,
+                    content=content,
+                    user_id=user_id,
+                    created_at=None)
+
+    db.session.add(new_post)
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+@app.get('/posts/<int:post_id>')
+def show_post_detail(post_id):
+    """Show post detail page."""
+
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    user = User.query.get(user_id)
+    return render_template('post-detail.html', post=post, user=user)
+
+@app.get('/posts/<int:post_id>/edit')
+def edit_post_form(post_id):
+    """Show edit post form."""
+
+    post = Post.query.get_or_404(post_id)
+    return render_template('edit-post.html', post=post)
