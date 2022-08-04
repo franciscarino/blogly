@@ -4,9 +4,9 @@ block content %}
 
 <p>{{ post.content }}</p>
 
-<p>By {{ user.first_name}} {{ user.last_name }}</p>
+<p>By {{ post.user.first_name}} {{ post.user.last_name }}</p>
 
-<a href="/users/{{ user.id }}">
+<a href="/users/{{ post.user.id }}">
   <button>Cancel</button>
 </a>
 <a href="/posts/{{ post.id }}/edit">

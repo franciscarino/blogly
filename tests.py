@@ -134,9 +134,6 @@ class PostViewTestCase(TestCase):
         db.session.add_all([test_post, test_post_two])
         db.session.commit()
 
-        breakpoint()
-
-
         self.user_id = test_user.id
         self.post_id = test_post.id
 

@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, request, redirect
-from models import DEFAULT_IMAGE_URL, db, connect_db, User, Post
+from models import DEFAULT_IMAGE_URL, db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -125,9 +125,7 @@ def show_post_detail(post_id):
     """Show post detail page."""
 
     post = Post.query.get_or_404(post_id)
-    user_id = post.user_id
-    user = User.query.get(user_id)
-    return render_template('post-detail.html', post=post, user=user)
+    return render_template('post-detail.html', post=post)
 
 @app.get('/posts/<int:post_id>/edit')
 def edit_post_form(post_id):
@@ -154,6 +152,7 @@ def handle_edit_post_form(post_id):
 @app.post('/posts/<int:post_id>/delete')
 def delete_post(post_id):
     """Deletes post"""
+
 
     post = Post.query.get_or_404(post_id)
     user_id = post.user_id
