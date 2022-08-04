@@ -11,6 +11,9 @@ app.config['SQLALCHEMY_ECHO'] = True
 connect_db(app)
 db.create_all()
 
+
+############## USER ##############
+
 @app.get('/')
 def home_page():
     """Redirects to users page"""
@@ -94,6 +97,7 @@ def delete_user(user_id):
     return redirect('/users')
 
 
+############## POST ##############
 
 @app.get('/users/<int:user_id>/posts/new')
 def show_post_form(user_id):
@@ -164,3 +168,40 @@ def delete_post(post_id):
 
 
 
+############## TAGS ##############
+
+@app.get('/tags')
+def list_tags():
+    """List all tags """
+
+    tags = Tag.query.all()
+    return render_template('tags.html', tags = tags)
+
+
+@app.get('/tags/<int:tag_id>')
+def show_tag_details(tag_id):
+    """Show detail about a tag."""
+
+    tag = Tag.query.get(tag_id)
+
+    return render_template('tag-details.html', tag = tag)
+
+
+@app.get('/tags/new')
+def show_new_tag_form():
+
+    return render_template('create-tag.html')
+
+
+@app.post('/tags/new')
+def handle_new_tag():
+    """Process add form, adds tag, and redirect to tag list."""
+
+    tag_name = request.form['new-tag']
+
+    new_tag = Tag(name = tag_name)
+
+    db.session.add(new_tag)
+    db.session.commit()
+
+    return redirect('/tags')
