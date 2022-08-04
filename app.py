@@ -53,8 +53,7 @@ def show_user_details(user_id):
     """Shows user details"""
 
     user = User.query.get_or_404(user_id)
-    posts = Post.query.filter_by(user_id=user_id)
-    return render_template('detail.html', user=user, posts=posts)
+    return render_template('detail.html', user=user, posts=user.posts)
 
 
 @app.get('/users/<int:user_id>/edit')
