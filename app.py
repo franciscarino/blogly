@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, request, redirect
-from models import DEFAULT_IMAGE_URL, db, connect_db, User
+from models import DEFAULT_IMAGE_URL, db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -92,3 +92,11 @@ def delete_user(user_id):
     db.session.commit()
 
     return redirect('/users')
+
+
+
+@app.get('/users/<int:user_id>/posts/new')
+def handle_show_post_form(user_id):
+
+    user = User.query.get_or_404(user_id)
+    return render_template('new-post.html', user=user)

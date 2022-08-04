@@ -1,21 +1,29 @@
-{% extends 'base.html' %}
-
-{% block title %}User Details{% endblock %}
-
-{% block content %}
-
-{% if user.img_url %}
-  <img src="{{ user.img_url }}" alt="profile pic">
+{% extends 'base.html' %} {% block title %}User Details{% endblock %} {% block
+content %} {% if user.img_url %}
+<img src="{{ user.img_url }}" alt="profile pic" />
 {% endif %}
-<h1>{{ user.first_name }} {{ user.last_name }} </h1>
-  <a href="/users/{{ user.id }}/edit">
-    <button>Edit</button>
-  </a>
-  <!-- <a href="/users/{{ user.id }}/delete">
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+<a href="/users/{{ user.id }}/edit">
+  <button>Edit</button>
+</a>
+<!-- <a href="/users/{{ user.id }}/delete">
     <button>Delete</button>
   </a> -->
-  <form action="/users/{{ user.id }}/delete" method="POST">
-    <button>Delete</button>
-  </form>
+<form action="/users/{{ user.id }}/delete" method="POST">
+  <button>Delete</button>
+</form>
+
+<h2>Posts</h2>
+<ul>
+  {% for post in posts %}
+  <li>
+    <a href="/posts/{{ post.id }}/">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<a href="/users/{{ user.id }}/posts/new">
+  <button>Add Post</button>
+</a>
 
 {% endblock %}
