@@ -1,20 +1,19 @@
-{% extends 'base.html' %} {% block title %}{{ post.title }}{% endblock %} {% block
-  content %}
-  <h1>{{ post.title }}</h1>
+{% extends 'base.html' %} {% block title %}{{ post.title }}{% endblock %} {%
+block content %}
+<h1>{{ post.title }}</h1>
 
+<p>{{ post.content }}</p>
 
-  <p>{{ post.content }}</p>
+<p>By {{ user.first_name}} {{ user.last_name }}</p>
 
-  <p> By {{ user.first_name}} {{ user.last_name }}</p>
+<a href="/users/{{ user.id }}">
+  <button>Cancel</button>
+</a>
+<a href="/posts/{{ post.id }}/edit">
+  <button>Edit Post</button>
+</a>
+<form action="/posts/{{ post.id }}/delete" method="POST">
+  <button>Delete</button>
+</form>
 
-  <a href="/users/{{ user.id }}">
-    <button>Cancel</button>
-  </a>
-  <a href="/posts/{{ post.id }}/edit">
-    <button>Edit Post</button>
-  </a>
-  <form action="/users/{{ user.id }}/delete" method="POST">
-    <button>Delete</button>
-  </form>
-
-  {% endblock %}
+{% endblock %}

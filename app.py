@@ -136,3 +136,33 @@ def edit_post_form(post_id):
 
     post = Post.query.get_or_404(post_id)
     return render_template('edit-post.html', post=post)
+
+@app.post('/posts/<int:post_id>/edit')
+def handle_edit_post_form(post_id):
+    """Handle editing of a post. Redirect back to post view."""
+
+    post = Post.query.get_or_404(post_id)
+    title  = request.form['title']
+    content = request.form['content']
+
+    post.title = title
+    post.content = content
+
+    db.session.commit()
+
+    return redirect(f'/posts/{post_id}')
+
+@app.post('/posts/<int:post_id>/delete')
+def delete_post(post_id):
+    """Deletes post"""
+
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+
+    Post.query.filter(Post.id == post_id).delete()
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+
+
