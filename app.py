@@ -153,9 +153,16 @@ def handle_edit_post_form(post_id):
     post = Post.query.get_or_404(post_id)
     title  = request.form['title']
     content = request.form['content']
+    tags = request.form.getlist('tag_id')
 
     post.title = title
     post.content = content
+    # TODO: add functionality for updating post tags in edit form
+    # posttags = [ PostTag(post_id=post.id, tag_id=int(tag)) for tag in tags ]
+
+    # for tag in tags:
+    #     if
+
 
     db.session.commit()
 
