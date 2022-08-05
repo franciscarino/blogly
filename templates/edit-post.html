@@ -9,10 +9,20 @@
     </div>
     <div>
       <label for="content">Content</label>
+      <br>
       <textarea name="content" rows="4" cols="30">{{ post.content }}</textarea>
     </div>
+
+    {% for tag in tags %}
+    <input type="checkbox" name="tag_id" value="{{ tag.id }}"/><label for="tag_id">{{ tag.name}} </label>
+    {% endfor %}
+    <br>
     <button type="submit">Edit</button>
   </form>
+
+
+
+
   <a href="/posts/{{ post.id }}">
     <button>Cancel</button>
   </a>

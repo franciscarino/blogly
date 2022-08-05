@@ -104,7 +104,8 @@ def show_post_form(user_id):
     """Show new post form for user."""
 
     user = User.query.get_or_404(user_id)
-    return render_template('new-post.html', user=user)
+    tags = Tag.query.all()
+    return render_template('new-post.html', user=user, tags=tags)
 
 
 @app.post('/users/<int:user_id>/posts/new')
@@ -113,13 +114,19 @@ def handle_show_post_form(user_id):
 
     title = request.form['title']
     content = request.form['content']
+    tags = request.form.getlist('tag_id')
 
     new_post = Post(title=title,
                     content=content,
                     user_id=user_id,
                     created_at=None)
 
+
     db.session.add(new_post)
+    db.session.commit()
+    posttags = [ PostTag(post_id=new_post.id, tag_id=int(tag)) for tag in tags ]
+
+    db.session.add_all(posttags)
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
@@ -136,7 +143,8 @@ def edit_post_form(post_id):
     """Show edit post form."""
 
     post = Post.query.get_or_404(post_id)
-    return render_template('edit-post.html', post=post)
+    tags = Tag.query.all()
+    return render_template('edit-post.html', post=post, tags=tags)
 
 @app.post('/posts/<int:post_id>/edit')
 def handle_edit_post_form(post_id):
@@ -182,7 +190,7 @@ def list_tags():
 def show_tag_details(tag_id):
     """Show detail about a tag."""
 
-    tag = Tag.query.get(tag_id)
+    tag = Tag.query.get_or_404(tag_id)
 
     return render_template('tag-details.html', tag = tag)
 
@@ -202,6 +210,34 @@ def handle_new_tag():
     new_tag = Tag(name = tag_name)
 
     db.session.add(new_tag)
+    db.session.commit()
+
+    return redirect('/tags')
+
+@app.get('/tags/<int:tag_id>/edit')
+def show_edit_tag_form(tag_id):
+    """Show edit tag form."""
+
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('edit-tag.html', tag=tag)
+
+@app.post('/tags/<int:tag_id>/edit')
+def handle_edit_tag_form(tag_id):
+    """Handle edit tag form."""
+
+    tag = Tag.query.get_or_404(tag_id)
+    name = request.form['name']
+    tag.name = name
+    db.session.commit()
+
+    return redirect(f'/tags/{tag.id}')
+
+@app.post('/tags/<int:tag_id>/delete')
+def delete_tag(tag_id):
+    """Delete a tag."""
+
+    Tag.query.filter(Tag.id == tag_id).delete()
     db.session.commit()
 
     return redirect('/tags')
